@@ -13,9 +13,10 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.rs && chm
 
 RUN ln -sf /bin/bash /bin/sh
 
-RUN git clone --branch testnet https://gitlab.com/massalabs/massa.git
+RUN git clone --branch testnet https://github.com/massalabs/massa.git
 RUN source $HOME/.cargo/env && rustup toolchain install nightly
 RUN source $HOME/.cargo/env && rustup default nightly
+RUN source $HOME/.cargo/env && rustup update
 
 WORKDIR /massa/massa-client
 RUN bash -c "source $HOME/.cargo/env && cargo build --release"
@@ -24,4 +25,4 @@ WORKDIR /massa/massa-node
 RUN bash -c "source $HOME/.cargo/env && cargo build --release"
 
 ENTRYPOINT ["bash","-c","source $HOME/.cargo/env && RUST_BACKTRACE=full cargo run --release"]
-EXPOSE 33033
+EXPOSE 33033 31244 31245
